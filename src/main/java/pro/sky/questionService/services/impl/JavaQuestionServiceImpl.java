@@ -1,8 +1,7 @@
 package pro.sky.questionService.services.impl;
 
 import org.springframework.stereotype.Service;
-import pro.sky.questionService.services.api.Question;
-import pro.sky.questionService.services.api.QuestionService;
+import pro.sky.questionService.services.interfaces.QuestionService;
 
 import java.util.*;
 

@@ -1,4 +1,6 @@
-package pro.sky.questionService.services.api;
+package pro.sky.questionService.services.interfaces;
+
+import pro.sky.questionService.services.impl.Question;
 
 import java.util.Collection;
 
