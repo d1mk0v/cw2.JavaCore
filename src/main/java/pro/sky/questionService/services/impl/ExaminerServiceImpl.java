@@ -14,11 +14,9 @@ import java.util.Set;
 public class ExaminerServiceImpl implements ExaminerService {
 
     private final QuestionService questionService;
-//    private Random random;
 
     public ExaminerServiceImpl(QuestionService questionService) {
         this.questionService = questionService;
-//        random = new Random();
     }
 
     @Override
