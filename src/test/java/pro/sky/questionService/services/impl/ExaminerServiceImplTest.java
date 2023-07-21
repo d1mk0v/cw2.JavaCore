@@ -10,9 +10,7 @@ import org.mockito.stubbing.OngoingStubbing;
 import pro.sky.questionService.exceptions.NotEnoughQuestionsException;
 import pro.sky.questionService.services.interfaces.QuestionService;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -49,17 +47,17 @@ public void getQuestionsTest() {
     @Test
     public void getQuestionsTest() {
 
-        Set<Question> questions = new HashSet<>();
+        List<Question> questions = new ArrayList<>();
 
         questions.add(new Question("Question 1", "Answer 1"));
         questions.add(new Question("Question 2", "Answer 2"));
         questions.add(new Question("Question 3", "Answer 3"));
 
-        when(questionService.getRandomQuestion()).thenReturn((Question) questions);
+        when(questionService.getRandomQuestion()).thenReturn(questions.get(0)).thenReturn(questions.get(1));
 
         int amount = 2;
-        Collection<Question> randomQuestions = examinerService.getQuestions(amount);
 
+        Collection<Question> randomQuestions = examinerService.getQuestions(amount);
         assertNotNull(randomQuestions);
         assertEquals(amount, randomQuestions.size());
         assertTrue(questions.containsAll(randomQuestions));
@@ -68,11 +66,13 @@ public void getQuestionsTest() {
     @Test
     public void getQuestionsExceptionTest() {
 
-        Set<Question> questions = new HashSet<>();
+        List<Question> questions = new ArrayList<>();
 
         questions.add(new Question("Question 1", "Answer 1"));
 
-        when(questionService.getRandomQuestion()).thenReturn((Question) questions);
+//        when(questionService.getRandomQuestion()).thenReturn((Question) questions);
+        when(questionService.getRandomQuestion()).thenReturn(questions.get(0)).thenReturn(questions.get(1));
+
 
         int amount = 2;
 
