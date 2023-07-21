@@ -26,8 +26,8 @@ public class ExaminerServiceImplTest {
     public void setup() {
         examinerService = new ExaminerServiceImpl(questionService);
     }
- @Test
-public void getQuestionsTest() {
+    @Test
+    public void getQuestionsTest() {
 
         List<Question> questions = new ArrayList<>();
 
