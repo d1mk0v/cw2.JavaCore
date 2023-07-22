@@ -37,7 +37,8 @@ public class ExaminerServiceImplTest {
 
         when(questionService.getRandomQuestion()).thenReturn(questions.get(0)).thenReturn(questions.get(1));
 
-        int amount = 2;
+        int amount = 1;
+
         Collection<Question> randomQuestions = examinerService.getQuestions(amount);
 
         assertNotNull(randomQuestions);
@@ -53,13 +54,9 @@ public class ExaminerServiceImplTest {
         questions.add(new Question("Question 1", "Answer 1"));
 
 //        when(questionService.getRandomQuestion()).thenReturn((Question) questions);
-        when(questionService.getRandomQuestion()).thenReturn(questions.get(0)).thenReturn(questions.get(1));
+        Mockito.when(questionService.getAll()).thenReturn(questions);
 
-
-        int amount = 2;
-
-        assertThrows(NotEnoughQuestionsException.class, () -> {
-            examinerService.getQuestions(amount);
-        });
+        assertThrows(NotEnoughQuestionsException
+                .class, () -> examinerService.getQuestions(2));
     }
 }

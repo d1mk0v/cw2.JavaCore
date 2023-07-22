@@ -19,24 +19,18 @@ public class ExaminerServiceImpl implements ExaminerService {
         this.questionService = questionService;
     }
 
-    @Override
-    public Collection<Question> getQuestions(int amount) {
+    public Set<Question> getQuestions(int amount) {
 
-        Set<Question> listOfRandomQuestions = new HashSet<>();
+        Set<Question> questions = new HashSet<>();
 
-        while (listOfRandomQuestions.size() < amount) {
-            Question randomQuestion = questionService.getRandomQuestion();
-            listOfRandomQuestions.add(randomQuestion);
-
-            if (randomQuestion == null) {
-                break;
-            }
-        }
-
-        if (listOfRandomQuestions.size() < amount) {
+        if (questionService.getAll().size() < amount){
             throw new NotEnoughQuestionsException("Недостаточно вопросов!!!");
         }
 
-        return listOfRandomQuestions;
+        while (questions.size() != amount) {
+            questions.add(questionService.getRandomQuestion());
+        }
+
+        return questions;
     }
 }
