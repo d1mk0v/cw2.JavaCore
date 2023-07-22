@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class JavaQuestionServiceImplTest {
     private JavaQuestionServiceImpl javaQuestionService;
 
-    @BeforeEach
-    public void setup() {
-        Set<Question> questions = new HashSet<>();
-        javaQuestionService = new JavaQuestionServiceImpl(questions);
-    }
+//    @BeforeEach
+//    public void setup() {
+//        Set<Question> questions = new HashSet<>();
+//        javaQuestionService = new JavaQuestionServiceImpl(javaquestionRepository);
+//    }
 
     @Test
     void addTest() {
