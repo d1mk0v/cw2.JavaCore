@@ -22,7 +22,7 @@ public class ExaminerServiceImplTest {
 
     @BeforeEach
     public void setup() {
-        examinerService = new ExaminerServiceImpl(questionService);
+        examinerService = new ExaminerServiceImpl(random, questionService);
     }
     @Test
     public void getQuestionsTest() {
