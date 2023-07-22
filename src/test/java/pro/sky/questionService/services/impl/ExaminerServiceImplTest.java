@@ -29,34 +29,35 @@ public class ExaminerServiceImplTest {
     @Test
     public void getQuestionsTest() {
 
-        List<Question> questions = new ArrayList<>();
+        Set<Question> questions= new HashSet<>();
 
         questions.add(new Question("Question 1", "Answer 1"));
         questions.add(new Question("Question 2", "Answer 2"));
         questions.add(new Question("Question 3", "Answer 3"));
 
-        when(questionService.getRandomQuestion()).thenReturn(questions.get(0)).thenReturn(questions.get(1));
+        Mockito.when(questionService.getAll()).thenReturn(questions);
 
-        int amount = 1;
+        Question randomQuestion = new Question("Question 3", "Answer 3");
 
-        Collection<Question> randomQuestions = examinerService.getQuestions(amount);
+        Mockito.when(questionService.getRandomQuestion()).thenReturn(randomQuestion);
 
-        assertNotNull(randomQuestions);
-        assertEquals(amount, randomQuestions.size());
-        assertTrue(questions.containsAll(randomQuestions));
+        Set<Question> expected = new HashSet<>();
+        expected.add(new Question("Question 3", "Answer 3"));
+
+        Set<Question> actual = examinerService.getQuestions(1);
+
+        assertEquals(expected, actual);
     }
 
     @Test
     public void getQuestionsExceptionTest() {
 
-        List<Question> questions = new ArrayList<>();
-
+        Set<Question> questions= new HashSet<>();
         questions.add(new Question("Question 1", "Answer 1"));
+        questions.add(new Question("Question 2", "Answer 2"));
 
-//        when(questionService.getRandomQuestion()).thenReturn((Question) questions);
         Mockito.when(questionService.getAll()).thenReturn(questions);
 
-        assertThrows(NotEnoughQuestionsException
-                .class, () -> examinerService.getQuestions(2));
+        assertThrows(NotEnoughQuestionsException.class, () -> examinerService.getQuestions(3));
     }
 }
