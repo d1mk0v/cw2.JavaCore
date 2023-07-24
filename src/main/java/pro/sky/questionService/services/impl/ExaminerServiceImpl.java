@@ -11,14 +11,12 @@ import java.util.*;
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
 
-//    private final Random random;
     private final QuestionService javaQuestionService;
     private final QuestionService mathQuestionService;
 
     @Autowired
     public ExaminerServiceImpl(@Qualifier("javaQuestionServiceImpl") QuestionService javaQuestionService,
                                @Qualifier("mathQuestionServiceImpl") QuestionService mathQuestionService) {
-//        this.random = random;
 
         this.javaQuestionService = javaQuestionService;
         this.mathQuestionService = mathQuestionService;

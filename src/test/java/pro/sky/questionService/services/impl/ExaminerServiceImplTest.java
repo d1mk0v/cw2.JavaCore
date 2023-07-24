@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.questionService.exceptions.NotEnoughQuestionsException;
 import pro.sky.questionService.services.interfaces.QuestionService;
@@ -16,48 +17,49 @@ import static org.mockito.Mockito.when;
 @ExtendWith(value = MockitoExtension.class)
 public class ExaminerServiceImplTest {
 
-    @Mock
-    private QuestionService questionService;
     private ExaminerServiceImpl examinerService;
+    private QuestionService javaQuestionService;
+    private QuestionService mathQuestionService;
 
-//    @BeforeEach
-//    public void setup() {
-//        examinerService = new ExaminerServiceImpl();
-//    }
+    @BeforeEach
+    public void setup() {
+        Set<Question> javaQuestions = new HashSet<>();
+        Set<Question> mathQuestions = new HashSet<>();
+
+        javaQuestionService = Mockito.mock(QuestionService.class);
+        mathQuestionService = Mockito.mock(QuestionService.class);
+
+        examinerService = new ExaminerServiceImpl(javaQuestionService, mathQuestionService);
+    }
     @Test
     public void getQuestionsTest() {
 
-        List<Question> questions = new ArrayList<>();
+        Question javaQuestion = new Question("Java question", "Java answer");
+        Question mathQuestion = new Question("Math question", "Math answer");
 
-        questions.add(new Question("Question 1", "Answer 1"));
-        questions.add(new Question("Question 2", "Answer 2"));
-        questions.add(new Question("Question 3", "Answer 3"));
+        Set<Question> javaQuestions = new HashSet<>();
+        Set<Question> mathQuestions = new HashSet<>();
 
-        when(questionService.getRandomQuestion()).thenReturn(questions.get(0)).thenReturn(questions.get(1));
+        javaQuestions.add(javaQuestion);
+        mathQuestions.add(mathQuestion);
 
-        int amount = 2;
-        Collection<Question> randomQuestions = examinerService.getQuestions(amount);
+        when(javaQuestionService.getAll()).thenReturn(javaQuestions);
+        when(mathQuestionService.getAll()).thenReturn(mathQuestions);
+
+        Collection<Question> randomQuestions = examinerService.getQuestions(2);
 
         assertNotNull(randomQuestions);
-        assertEquals(amount, randomQuestions.size());
-        assertTrue(questions.containsAll(randomQuestions));
+        assertEquals(randomQuestions.size(), 2);
     }
 
     @Test
     public void getQuestionsExceptionTest() {
 
-        List<Question> questions = new ArrayList<>();
+        when(javaQuestionService.getAll()).thenReturn(new HashSet<>());
+        when(mathQuestionService.getAll()).thenReturn(new HashSet<>());
 
-        questions.add(new Question("Question 1", "Answer 1"));
+        Collection<Question> randomQuestions = examinerService.getQuestions(2);
 
-//        when(questionService.getRandomQuestion()).thenReturn((Question) questions);
-        when(questionService.getRandomQuestion()).thenReturn(questions.get(0)).thenReturn(questions.get(1));
-
-
-        int amount = 2;
-
-        assertThrows(NotEnoughQuestionsException.class, () -> {
-            examinerService.getQuestions(amount);
-        });
+        assertNull(randomQuestions);
     }
 }

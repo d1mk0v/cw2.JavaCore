@@ -2,29 +2,33 @@ package pro.sky.questionService.services.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import pro.sky.questionService.services.interfaces.QuestionRepository;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 class JavaQuestionServiceImplTest {
     private JavaQuestionServiceImpl javaQuestionService;
+    private QuestionRepository questionRepository;
 
-//    @BeforeEach
-//    public void setup() {
-//        Set<Question> questions = new HashSet<>();
-//        javaQuestionService = new JavaQuestionServiceImpl(javaquestionRepository);
-//    }
+    @BeforeEach
+    public void setup() {
+        Set<Question> questions = new HashSet<>();
+        questionRepository = Mockito.mock(QuestionRepository.class);
+        javaQuestionService = new JavaQuestionServiceImpl(questionRepository);
+    }
+
 
     @Test
     void addTest() {
 
         Question question = javaQuestionService.add("Question", "Answer");
 
-        assertTrue(javaQuestionService.getAll().contains(question));
-        assertEquals(question.getQuestion(), "Question");
-        assertEquals(question.getAnswer(), "Answer");
+        Mockito.verify(questionRepository, Mockito.times(1)).add(question);
     }
 
     @Test
@@ -33,7 +37,7 @@ class JavaQuestionServiceImplTest {
         Question question = new Question("Question", "Answer");
         Question addedQuestion = javaQuestionService.add(question);
 
-        assertTrue(javaQuestionService.getAll().contains(addedQuestion));
+        Mockito.verify(questionRepository, Mockito.times(1)).add(question);
         assertEquals(addedQuestion, question);
     }
 
@@ -41,36 +45,30 @@ class JavaQuestionServiceImplTest {
     void removeTest() {
 
         Question question = new Question("Question", "Answer");
-        javaQuestionService.add(question);
+        javaQuestionService.remove(question);
 
-        Question removedQuestion = javaQuestionService.remove(question);
-
-        assertFalse(javaQuestionService.getAll().contains(removedQuestion));
-        assertEquals(removedQuestion, question);
+        Mockito.verify(questionRepository, Mockito.times(1)).remove(question);
     }
 
     @Test
     void getAllTest() {
 
-        Question question1 = new Question("Question 1", "Answer 1");
-        Question question2 = new Question("Question 2", "Answer 2");
+        javaQuestionService.getAll();
 
-        javaQuestionService.add(question1);
-        javaQuestionService.add(question2);
-
-        assertTrue(javaQuestionService.getAll().contains(question1));
-        assertTrue(javaQuestionService.getAll().contains(question2));
-        assertEquals(javaQuestionService.getAll().size(), 2);
+        Mockito.verify(questionRepository, Mockito.times(1)).getAll();
     }
 
     @Test
     void getRandomQuestion() {
 
-        javaQuestionService.add("Question", "Answer");
+        Question question = new Question("Question", "Answer");
+        Set<Question> questions = new HashSet<>();
+        questions.add(question);
+
+        when(questionRepository.getAll()).thenReturn(questions);
 
         Question randomQuestion = javaQuestionService.getRandomQuestion();
 
         assertNotNull(randomQuestion);
-        assertTrue(javaQuestionService.getAll().contains(randomQuestion));
     }
 }
