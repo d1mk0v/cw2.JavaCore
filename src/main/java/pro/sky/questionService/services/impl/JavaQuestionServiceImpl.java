@@ -1,9 +1,7 @@
 package pro.sky.questionService.services.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import pro.sky.questionService.repositories.JavaQuestionRepository;
 import pro.sky.questionService.services.interfaces.QuestionRepository;
 import pro.sky.questionService.services.interfaces.QuestionService;
 
