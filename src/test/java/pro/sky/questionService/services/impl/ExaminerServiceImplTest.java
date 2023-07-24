@@ -20,10 +20,10 @@ public class ExaminerServiceImplTest {
     private QuestionService questionService;
     private ExaminerServiceImpl examinerService;
 
-    @BeforeEach
-    public void setup() {
-        examinerService = new ExaminerServiceImpl(random, questionService);
-    }
+//    @BeforeEach
+//    public void setup() {
+//        examinerService = new ExaminerServiceImpl();
+//    }
     @Test
     public void getQuestionsTest() {
 

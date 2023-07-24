@@ -1,5 +1,6 @@
 package pro.sky.questionService.controllers;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,10 +12,10 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping("/exam/java")
-public class JavaController {
+public class JavaQuestionController {
     private final JavaQuestionServiceImpl javaQuestionService;
 
-    public JavaController(JavaQuestionServiceImpl javaQuestionService) {
+    public JavaQuestionController(@Qualifier("javaQuestionServiceImpl")JavaQuestionServiceImpl javaQuestionService) {
         this.javaQuestionService = javaQuestionService;
     }
 

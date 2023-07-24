@@ -1,5 +1,6 @@
 package pro.sky.questionService.controllers;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +16,7 @@ import java.util.Collection;
 public class MathQuestionController {
     private final MathQuestionServiceImpl mathQuestionService;
 
-    public MathQuestionController(MathQuestionServiceImpl mathQuestionService) {
+    public MathQuestionController(@Qualifier("mathQuestionServiceImpl")MathQuestionServiceImpl mathQuestionService) {
         this.mathQuestionService = mathQuestionService;
     }
 

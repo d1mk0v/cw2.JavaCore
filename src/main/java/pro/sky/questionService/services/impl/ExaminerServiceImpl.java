@@ -3,25 +3,23 @@ package pro.sky.questionService.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import pro.sky.questionService.exceptions.NotEnoughQuestionsException;
 import pro.sky.questionService.services.interfaces.ExaminerService;
 import pro.sky.questionService.services.interfaces.QuestionService;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
 
-    private final Random random;
+//    private final Random random;
     private final QuestionService javaQuestionService;
     private final QuestionService mathQuestionService;
 
     @Autowired
-    public ExaminerServiceImpl(@Qualifier("javaQuestionService") QuestionService javaQuestionService,
-                               @Qualifier("mathQuestionService") QuestionService mathQuestionService) {
+    public ExaminerServiceImpl(@Qualifier("javaQuestionServiceImpl") QuestionService javaQuestionService,
+                               @Qualifier("mathQuestionServiceImpl") QuestionService mathQuestionService) {
+//        this.random = random;
+
         this.javaQuestionService = javaQuestionService;
         this.mathQuestionService = mathQuestionService;
     }
@@ -29,22 +27,30 @@ public class ExaminerServiceImpl implements ExaminerService {
     @Override
     public Collection<Question> getQuestions(int amount) {
 
-        Set<Question> listOfRandomQuestions = new HashSet<>();
+        List<Question> allQuestions = new ArrayList<>();
+        int randomIndex;
 
-        if (listOfRandomQuestions.size() < amount) {
-            throw new NotEnoughQuestionsException("Недостаточно вопросов!!!");
+        allQuestions.addAll(javaQuestionService.getAll());
+        allQuestions.addAll(mathQuestionService.getAll());
+
+        if (allQuestions.isEmpty()) {
+            return null;
         }
 
-        while (listOfRandomQuestions.size() < amount) {
-            Question randomQuestion = questionService.getRandomQuestion();
-            listOfRandomQuestions.add(randomQuestion);
+        Collection<Question> randomQuestions = new ArrayList<>();
+        Random random = new Random();
 
-            if (randomQuestion == null) {
+        for (int i = 0; i < amount; i++) {
+            if (allQuestions.isEmpty()) {
                 break;
             }
+
+            randomIndex = random.nextInt(allQuestions.size());
+            Question randomQuestion = allQuestions.get(randomIndex);
+            randomQuestions.add(randomQuestion);
+            allQuestions.remove(randomQuestion);
         }
 
-
-        return listOfRandomQuestions;
+        return randomQuestions;
     }
 }
