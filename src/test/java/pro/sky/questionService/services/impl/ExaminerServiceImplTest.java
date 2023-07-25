@@ -3,10 +3,8 @@ package pro.sky.questionService.services.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pro.sky.questionService.exceptions.NotEnoughQuestionsException;
 import pro.sky.questionService.services.interfaces.QuestionService;
 
 import java.util.*;
